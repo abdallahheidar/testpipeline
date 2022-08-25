@@ -2,9 +2,10 @@ defaults: &defaults
   docker:
     - image: circleci/node:13.8.0
 
-cmdd: &cmdd
-  command: |
-    echo cmdd
+commands:
+  print_id:
+    steps:
+      - run: echo cmdd
 
 version: 2.1
 
@@ -22,11 +23,11 @@ jobs:
           command: |
             echo save_hello_world_output
             echo "text to output here" > ~/output.txt
-          <<: *cmdd
       - persist_to_workspace:
           root: ~/
           paths: 
             - output.txt
+      - print_id
   
   load_hello_world_output:
     <<: *defaults
@@ -43,7 +44,7 @@ jobs:
           command: |
             echo load_hello_world_output
             cat ~/output.txt
-          <<: *cmdd
+      - print_id
 
 workflows:
   default:
