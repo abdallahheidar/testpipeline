@@ -47,7 +47,7 @@ jobs:
           command: |
             echo load_hello_world_output
             cat ~/output.txt
-            return 1
+      - run: return 1
       - print_id
 
 workflows:
