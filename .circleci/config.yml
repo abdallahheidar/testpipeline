@@ -5,7 +5,10 @@ defaults: &defaults
 commands:
   print_id:
     steps:
-      - run: echo cmdd
+      - run: 
+          name: echo cmdd
+          command: echo cmdd
+          when: on_fail
 
 version: 2.1
 
@@ -44,6 +47,7 @@ jobs:
           command: |
             echo load_hello_world_output
             cat ~/output.txt
+            return 1
       - print_id
 
 workflows:
