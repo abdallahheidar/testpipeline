@@ -1,59 +1,25 @@
-defaults: &defaults
-  docker:
-    - image: circleci/node:13.8.0
-
-commands:
-  print_id:
-    steps:
-      - run: 
-          name: echo cmdd
-          command: echo cmdd
-          when: on_fail
-
 version: 2.1
-
+# Use a package of configuration called an orb.
+orbs:
+  # Choose either one of the orbs below
+  # welcome: circleci/welcome-orb@0.4.1
+  aws-cli: circleci/aws-cli@2.0.3
+# Define the jobs we want to run for this project
 jobs:
-  save_hello_world_output:
-    <<: *defaults
-    steps:
-      - checkout
-      - run:
-          name: Print Hello
-          command: |
-            echo Hello
-      - run:
-          name: Edit File
-          command: |
-            echo save_hello_world_output
-            echo "text to output here" > ~/output.txt
-      - persist_to_workspace:
-          root: ~/
-          paths: 
-            - output.txt
-      - print_id
-  
-  load_hello_world_output:
-    <<: *defaults
-    steps:
-      - checkout
-      - run:
-          name: Print Hello
-          command: |
-            echo Hello
-      - attach_workspace:
-          at: ~/
-      - run:
-          name: Edit File
-          command: |
-            echo load_hello_world_output
-            cat ~/output.txt
-      - run: exit 1
-      - print_id
-
+  create_infrastructure: 
+      docker:
+        - image: amazon/aws-cli
+      steps:
+        - checkout
+        - run:
+            name: Create Cloudformation Stack
+            command: |
+              aws cloudformation deploy \
+                --template-file template.yml \
+                --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
+                --region us-east-1# Sequential workflow
 workflows:
-  default:
+  # Name the workflow
+  myWorkflow:
     jobs:
-      - save_hello_world_output
-      - load_hello_world_output:
-          requires:
-            - save_hello_world_output
+      - create_infrastructure
