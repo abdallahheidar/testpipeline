@@ -14,7 +14,8 @@ jobs:
               fingerprints: ["6e:8a:a8:6d:c2:09:cb:72:23:9e:c7:dd:fc:5d:d0:ff"] 
       - run:
           name: Install OpenSSH
-          command: |
+          become: yes
+          shell: |
             apt-get install openssh-client
       - run:
           name: Install Ansible
