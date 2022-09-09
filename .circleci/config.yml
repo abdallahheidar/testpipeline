@@ -13,14 +13,18 @@ jobs:
       - add_ssh_keys:
               fingerprints: ["6e:8a:a8:6d:c2:09:cb:72:23:9e:c7:dd:fc:5d:d0:ff"] 
       - run:
+          name: Install OpenSSH
+          command: |
+            sudo apt-get update
+            sudo apt-get upgrade
+            sudo apt-get install openssh-client
+      - run:
           name: Install Ansible
           command: |
             apk add --update ansible
       - run:
           name: Run Playbook and Configure server
           command: |
-            ssh-agent bash
-            ssh-add ~/.ssh/id_rsa
             ansible-playbook -vvv -i inventory main-remote.yml
 
 workflows:
