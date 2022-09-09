@@ -16,7 +16,7 @@ jobs:
           name: Install OpenSSH
           become: yes
           shell: |
-            apt-get install openssh-client
+            apt install openssh-client
       - run:
           name: Install Ansible
           command: |
