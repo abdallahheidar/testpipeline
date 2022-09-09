@@ -13,14 +13,9 @@ jobs:
       - add_ssh_keys:
               fingerprints: ["6e:8a:a8:6d:c2:09:cb:72:23:9e:c7:dd:fc:5d:d0:ff"] 
       - run:
-          name: Install OpenSSH
-          become: yes
-          shell: |
-            apt install openssh-client
-      - run:
           name: Install Ansible
           command: |
-            apk add --update ansible
+            apk add --update ansible ssh-client
       - run:
           name: Run Playbook and Configure server
           command: |
