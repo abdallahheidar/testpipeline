@@ -20,6 +20,7 @@ jobs:
           else
             return 1
           fi
+
   configure_infrastructure: 
     docker:
       - image: python:3.7-alpine3.11
@@ -39,4 +40,5 @@ jobs:
 workflows:
   my_workflows:
     jobs:
-      - configure_infrastructure
+      - smoke_test
+      # - configure_infrastructure
