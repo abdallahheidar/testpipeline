@@ -19,7 +19,7 @@ jobs:
       - run:
           name: Run Playbook and Configure server
           command: |
-            ansible-playbook -vvv -i inventory main-remote.yml
+            ansible-playbook -i inventory main-remote.yml
 
 workflows:
   my_workflows:
